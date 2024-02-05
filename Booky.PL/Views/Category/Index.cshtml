@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "Index";
+    string VDMessage = ViewData["VDMessage"] as string; // Strongly typed (Compile time) fast 
+    string VBMessage = ViewBag.VBMessage; //dynamic property (Run time) slow
+}
+
+<div class="container">
+<div class="row pt-4 pb-3">
+        <div class="col-6">
+            <h2>Categories</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Category" asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"> Create New Category </i>
+                </a>
+        </div>
+    </div>
+@if (Model.Count() > 0)
+{
+   <table class="table table-bordered table-striped">
+       <thead>
+              <tr>
+                <th>Category Name</th>
+                <th>Display Order</th>
+                <th>Action</th>
+              </tr>
+       </thead>
+       <tbody>
+@foreach (var item in Model.OrderBy(c=>c.DisplayOrder))
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.DisplayOrder</td>
+                        <td>
+                            <a asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">
+                                <i class="bi bi-pencil-square"></i>
+                                </a>
+                            <a asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">
+                                <i class="bi bi-trash3 "></i>
+                                </a>
+
+                        </td>
+                    </tr>
+                }
+       </tbody>
+   </table> 
+}
+else
+{
+    <p>No categories found.</p>
+}
+</div>
+
+
